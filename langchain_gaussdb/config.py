@@ -27,18 +27,18 @@ class IvfFlatParams(BaseModel):
     """GSIVFFLAT index parameters"""
     ivf_nlist: int = 100
     ivf_nlist2: int = 0
-    num_parallels: int = 1
-    enable_quantization: bool = False
-    quantization_type: str = 'pq'
 
 
 class DiskAnnParams(BaseModel):
     """GsDiskANN index parameters"""
     pq_nseg: int = 1
     pq_nclus: int = 16
+    queue_size: int = 100
     num_parallels: int = 10
+    using_clustering_for_parallel: bool = False
+    lambda_for_balance: float = 0.00001
     enable_pq: bool = True
-    quantization_type: str = 'pq'
+    subgraph_count: int = 0
 
 
 class GaussVectorSettings(BaseModel):

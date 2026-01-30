@@ -4,13 +4,13 @@ An integration package connecting GaussDB and LangChain, supports quick connecti
 
 ## Installation
 
-- git clone this repo, then install with:
+- the first method: git clone this repo, then install with:
 
 ```shell
 poetry install
 ```
 
-- install with pip (already been released):
+- the second method: install with pip (already been released):
 ```shell
 pip install langchain_gaussdb-0.1.0-py3-none-any.whl
 ```
@@ -58,6 +58,25 @@ for doc in results:
     print(f"* {doc.page_content} [{doc.metadata}]")
 ```
 
+## Advanced Usage
+
+### Hybrid Search with Metadata
+
+```python
+# Filter by metadata with vector search
+results = vector_store.similarity_search(
+    query="machine learning",
+    k=3,
+    filter={"publish_year": 2023, "category": "research"},
+)
+
+# Perform similarity search and receive corresponding scores
+results_with_score = vectorstore.similarity_search_with_score(
+    query="test query",
+    k=2
+)
+```
+
 ## Configuration Guide
 
 ### Connection Settings
@@ -85,32 +104,15 @@ for doc in results:
 | GsIVFFLAT   | <=1024    | floatvector/boolvector | l2/cosine/hamming             |
 | GsDiskANN   | <=4096    | floatvector            | l2/cosine                     |
 
-## Advanced Usage
-
-### Hybrid Search with Metadata
-
-```python
-# Filter by metadata with vector search
-results = vector_store.similarity_search(
-    query="machine learning",
-    k=3,
-    filter={"publish_year": 2023, "category": "research"},
-)
-
-# Perform similarity search and receive corresponding scores
-results_with_score = vectorstore.similarity_search_with_score(
-    query="test query",
-    k=2
-)
-```
-
 ## API Reference
 
 ### Core Methods
-| Method                         | Description                                   |
-|--------------------------------|-----------------------------------------------|
-| `add_documents`                | Insert documents with automatic embedding     |
-| `similarity_search `           | Basic vector similarity search                |
-| `similarity_search_with_score` | Return (document, similarity_score) tuples   |
-| `delete`                       | Remove documents by ID list                  |
-| `drop_table`                   | Delete entire collection                     |
+| Method                         | Description                                 |
+|--------------------------------|---------------------------------------------|
+| `add_documents`                | Insert documents with automatic embedding   |
+| `similarity_search `           | Basic vector similarity search              |
+| `similarity_search_with_score` | Return (document, similarity_score) tuples  |
+| `delete`                       | Remove documents by ID list                 |
+| `get_by_ids`                   | Get documents by ID list                    |
+| `drop_table`                   | Delete entire table                         |
+| `from_documents `              | Initialize GaussVectorStore from documents  |
